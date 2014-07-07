@@ -64,21 +64,29 @@
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon "><i class="icon-user icon-color"></i></span>
-										<input type="radio" value="PersonalHomePage" name="usage" class="form-control radio radio-inline">Personal Home Page
-										<input type="radio" value="Programming" name="usage" class="form-control radio radio-inline">Programming
-										<input type="radio" value="FTP" name="usage" class="form-control radio radio-inline">FTP
+										<select name="usage" class="form-control" required="required">
+											<option value="null">[Select your usage]</option>
+											<?php foreach($usages as $usage) { ?>
+											<option value="<?=$usage->id ?>">&nbsp;<?=$usage->title ?>&nbsp;</option>
+											<?php } ?>
+										</select>
 									</div>
 									<?=form_error('usage','<li class="error">','</li>')?>
 								</div>
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon "><i class="icon-user icon-color"></i></span>
-										<input type="radio" value="BS" name="level" class="form-control radio radio-inline">BS
-										<input type="radio" value="MS" name="level" class="form-control radio radio-inline">MS
-										<input type="radio" value="PHD" name="level" class="form-control radio radio-inline">PHD
+										<select name="level" class="form-control" required="required">
+											<option value="null">[Select your level]</option>
+											<?php foreach($levels as $level) { ?>
+											<option value="<?=$level->id ?>">&nbsp;<?=$level->title ?>&nbsp;</option>
+											<?php } ?>
+										</select>
 									</div>
 									<?=form_error('level','<li class="error">','</li>')?>
 								</div>
+								<br>
+								<br>
 							</div>
 						</div>
 						<div class="col-sm-6 registration-right-section  animated fadeInUp" data-animation="fadeInUp">
@@ -86,12 +94,11 @@
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="icon-envelope icon-color"></i></span>
-										<select name="major" class="form-control form-group" required="required">
-											<option value="null" class="">[Select your major]</option>
-											<option value="InformationTechnology" class="">Information Technology</option>
-											<option value="SoftwareEngineering" class="">Software Engineering</option>
-											<option value="HardwareEngineering" class="">Hardware Engineering</option>
-											<option value="ElctricalEngineering" class="">Electrical Engineering</option>
+										<select name="major" class="form-control" required="required">
+											<option value="null">[Select your major]</option>
+											<?php foreach($majors as $major) { ?>
+											<option value="<?=$major->id ?>">&nbsp;<?=$major->title ?>&nbsp;</option>
+											<?php } ?>
 										</select>
 										<?=form_error('major','<li class="error">','</li>')?>
 									</div>
@@ -99,7 +106,7 @@
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon "><i class="icon-envelope icon-color"></i></span>
-										<input name="email" type="email" class="form-control " placeholder="Email Id" value="@ece.ut.ac.ir" required="required">
+										<input name="email" type="email" class="form-control " placeholder="Email Id" value="<?=set_value('username', '@ece.ut.ac.ir')?>" required="required">
 									</div>
 									<?=form_error('email','<li class="error">','</li>')?>
 								</div>

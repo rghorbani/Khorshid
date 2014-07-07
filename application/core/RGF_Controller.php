@@ -4,21 +4,7 @@ class RGF_Controller extends CI_Controller {
 	public $current_user = FALSE;
 	public function __construct($dummy = TRUE) {
 		parent::__construct();
-		/* User
-		$this->current_user = $this->login->checkAndGet();
-		// $this->output->enable_profiler(TRUE);
-		// LOGGING
-		if (DO_MAKE_LOGS && current_url() != site_url("scoj/queue/front")
-						 && current_url() != site_url("notifications/ajax_get_notifications")
-						 && current_url() != site_url("notifications/ajax_mark_as_read")
-						 && current_url() != site_url("notifications/ajax_get_unread_count")) {
-			$this->load->library("Logger");
-			$this->load->library('user_agent');
-			$param = "";
-			if ($this->agent->is_robot()) $param="{robot:" . $this->agent->robot() . "}";
-			else $param = "{agent:" . $this->agent->browser() . "-" . $this->agent->platform() . "}" . serialize($this->input->post());
-			$this->logger->log(($this->current_user==FALSE?-1:$this->current_user->id), $this->agent->referrer(), current_url() . ($this->input->server("QUERY_STRING")!=""?"?":"") . $this->input->server("QUERY_STRING"), $this->input->server("REQUEST_METHOD"), $param);
-		}*/
+		// $this->current_user = $this->login->checkAndGet();
 	}
 	
 	public function master_view($content_view, $data) {

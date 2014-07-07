@@ -5,6 +5,13 @@ class Users_model extends CI_Model {
 	function __construct() {
 		parent::__construct();
 	}
+
+	function checkUser($username, $password) {
+		$sql = "SELECT id, student_id, first_name, last_name, username, email, major, level FROM users WHERE username = ? AND password = ?";
+		$query = $this->db->query($sql, array(clean4print($username), $password)); 
+		if ($query->num_rows() != 1) return FALSE;
+		return $query->row();
+	}
 	
 	function getUsernames() {
 		$sql = "SELECT username FROM users WHERE new = 0 ORDER BY username";
@@ -13,7 +20,7 @@ class Users_model extends CI_Model {
 	}
 
 	function getUsersAll() {
-		$sql = "SELECT id, users.name, users.username FROM users";
+		$sql = "SELECT id, first_name, last_name, username FROM users";
 		$query = $this->db->query($sql);
 		return $query->result();
 	}
@@ -24,15 +31,20 @@ class Users_model extends CI_Model {
 	}
 
 	function usernameExists($username) {
-		$sql = "SELECT id FROM users WHERE username = ? UNION SELECT id FROM reserved_usernames WHERE username = ?";
-		$query = $this->db->query($sql, array($username, $username));
+		$sql = "SELECT id FROM users WHERE username = ?";
+		$query = $this->db->query($sql, array($username));
 		if ($query->num_rows() != 0) return TRUE;
 		return FALSE;
 	}
 	
-	function addUser($user_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, $new, $perm_moderator = 0, $image = DEFUALT_USER_IMAGE) {
-		$sql = "INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		$query = $this->db->query($sql, array($user_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($new), $perm_moderator));
+	function addUser($student_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, $status = 2, $perm_moderator = 0) {
+		$sql = "INSERT INTO users VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$query = $this->db->query($sql, array($user_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), intval($perm_moderator)));
+	}
+
+	function getPassword($username) {
+		$sql = "SELECT password FROM users WHERE username = ?";
+		$query = $this->db->query($sql, array($username));
 	}
 	
 	function updatePassword($password, $username) {
@@ -41,7 +53,7 @@ class Users_model extends CI_Model {
 	}
 	
 	function getUserProfile($username) {
-		$sql = "SELECT * from users where username = ?";
+		$sql = "SELECT * from users, majors, usages, levels where username = ? AND major=majors.id AND users.usages=usages.id AND level=levels.id";
 		$query = $this->db->query($sql, array(intval($username)));
 		if ($query->num_rows() == 0) return NULL;
 		if ($query->num_rows() != 1) return NULL;
@@ -49,14 +61,9 @@ class Users_model extends CI_Model {
 	}
 	
 	function getTotalUsers() {
-		$sql = "SELECT count(*) AS num FROM users";
+		$sql = "SELECT count(*) AS count FROM users";
 		$query = $this->db->query($sql);
-		return $query->row()->num;
-	}
-	
-	function updatePicture($user_id, $picture) {
-		$sql = "UPDATE users SET picture=? WHERE id=?";
-		$query = $this->db->query($sql, array($picture, intval($user_id)));
+		return $query->row()->count;
 	}
 	
 	function updateUserProfile($user_id, $name, $school) {
@@ -107,25 +114,5 @@ class Users_model extends CI_Model {
 		$query = $this->db->query($sql, array(clean4print($key)));
 		if ($query->num_rows() != 1) return NULL;
 		return $query->row();
-	}
-	
-	function deleteOldCaptcha() {
-		$sql = "DELETE FROM captcha WHERE time<?";
-		$query = $this->db->query($sql, array(nowTS()-CAPTCHA_LIFETIME));
-	}
-	
-	function newCaptcha($word, $hash, $time) {
-		$sql = "INSERT INTO captcha VALUES(NULL, ?, ?, ?)";
-		$query = $this->db->query($sql, array($word, $hash, $time));
-	}
-	
-	function captchaValid($word, $hash) {
-		$sql = "SELECT COUNT(*) AS num FROM captcha WHERE word=? AND hash=?";
-		$query = $this->db->query($sql, array($word, $hash));
-		$result = $query->row()->num;
-		$sql = "DELETE FROM captcha WHERE hash=?";
-		$query = $this->db->query($sql, array($hash));
-		if ($result == 0) return FALSE;
-		return TRUE;
 	}
 }

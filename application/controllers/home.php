@@ -73,6 +73,7 @@ class Home extends RGF_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Users_model','Users');
+		$this->load->model('Data_model','Data');
 		$this->load->library('form_validation');
 	}
 	
@@ -86,12 +87,15 @@ class Home extends RGF_Controller {
 		$data["captcha_image"] = $cap['filename'];
 		$hash = do_hash(mt_rand() . $cap["word"] . "__sh_c0d3!");
 		$data["captcha_hash"] = $hash;
-		$this->Users->deleteOldCaptcha();
-		$this->Users->newCaptcha($cap["word"], $hash, nowTS());
+		$this->Data->deleteOldCaptcha();
+		$this->Data->newCaptcha($cap["word"], $hash, nowTS());
 
-		// $data["users"] = $this->Users->getUsersAll();
+		$data['majors'] = $this->Data->getMajors();
+		$data['usages'] = $this->Data->getUsages();
+		$data['levels'] = $this->Data->getLevels();
+		$data["users"] = $this->Users->getUsersAll();
 
-		// $this->load->view("default/home/index", $data);		
+
 		$this->master_view("home/index", $data);
 	}
 
