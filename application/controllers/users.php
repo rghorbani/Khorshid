@@ -87,17 +87,22 @@ class Users extends RGF_Controller {
 		$this->load->model("Users_model","Users");
 		
 		if ($this->form_validation->run() == FALSE) {
-			/*
-			$data["title"] = "SignUp";
+			
+			// $data["title"] = "SignUp";
+			$this->load->model("Data_model","Data");
 			$cap = create_captcha();
 			$data["captcha_image"] = $cap['filename'];
 			$hash = do_hash(mt_rand() . $cap["word"] . "__sh_c0d3!");
 			$data["captcha_hash"] = $hash;
-			$this->Users->deleteOldCaptcha();
-			$this->Users->newCaptcha($cap["word"], $hash, nowTS());
-			$this->master_view("user/signup", $data);
-			*/
-			show_404();
+			$this->Data->deleteOldCaptcha();
+			$this->Data->newCaptcha($cap["word"], $hash, nowTS());
+
+			$data['majors'] = $this->Data->getMajors();
+			$data['usages'] = $this->Data->getUsages();
+			$data['levels'] = $this->Data->getLevels();
+			$data["users"] = $this->Users->getUsersAll();
+			
+			$this->master_view("home/index", $data);
 			return;
 		}
 		$this->load->library("Mailer");

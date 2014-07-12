@@ -42,18 +42,18 @@ class Users_model extends CI_Model {
 		$query = $this->db->query($sql, array($user_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), intval($perm_moderator)));
 	}
 
-	function getPassword($username) {
-		$sql = "SELECT password FROM users WHERE username = ?";
-		$query = $this->db->query($sql, array($username));
+	function getPassword($email) {
+		$sql = "SELECT password FROM users WHERE email = ?";
+		$query = $this->db->query($sql, array($email));
 	}
 	
-	function updatePassword($password, $username) {
-		$sql = "UPDATE users SET password = ? WHERE username = ?";
-		$query = $this->db->query($sql, array($password, $username));
+	function updatePassword($password, $email) {
+		$sql = "UPDATE users SET password = ? WHERE email = ?";
+		$query = $this->db->query($sql, array($password, $email));
 	}
 	
 	function getUserProfile($username) {
-		$sql = "SELECT * from users, majors, usages, levels where username = ? AND major=majors.id AND users.usages=usages.id AND level=levels.id";
+		$sql = "SELECT * from users, majors.title AS major_title, usages.title As usage_title, levels.title As level_title where username = ? AND major=majors.id AND users.usages=usages.id AND level=levels.id";
 		$query = $this->db->query($sql, array(intval($username)));
 		if ($query->num_rows() == 0) return NULL;
 		if ($query->num_rows() != 1) return NULL;
