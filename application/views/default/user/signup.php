@@ -110,7 +110,7 @@
 						<input name="hash" id="captcha_hash" type="hidden" value="<?=$captcha_hash?>">
 					</div>
 					<div class="registration-form-action clearfix animated fadeInUp" data-animation="fadeInUp" data-animation-delay=".15s">
-						<a href="index.html#demo1" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back </a>
+						<a href="#about" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back </a>
 						<button type="submit" class="btn btn-success pull-right green-btn ">Register Now &nbsp; <i class="icon-chevron-right"></i></button>
 					</div>
 				</form>

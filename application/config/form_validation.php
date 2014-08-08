@@ -27,6 +27,11 @@ $config = array(
 	),
 	'users/change_password' => array(
 		array(
+			'field' => 'email',
+			'label' => 'Email',
+			'rules' => 'trim|required|valid_email'
+		),
+		array(
 			'field' => 'current_password',
 			'label' => 'Current Password',
 			'rules' => 'required|callback__check_password'
@@ -98,20 +103,7 @@ $config = array(
 			'label' => 'Captcha',
 			'rules' => 'trim|required|callback__captcha_check'
 		)
-	),
-	'users/update_email' => array(
-		array(
-			'field' => 'email',
-			'label' => 'Email',
-			'rules' => 'trim|required|valid_email'
-		),
-		array(
-			'field' => 'show_email',
-			'label' => 'Show Email',
-			'rules' => ''
-		)
-	),
-	
+	)
 );
 
 

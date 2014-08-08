@@ -7,7 +7,7 @@ class Users_model extends CI_Model {
 	}
 
 	function checkUser($username, $password) {
-		$sql = "SELECT id, student_id, first_name, last_name, username, email, major, level FROM users WHERE username = ? AND password = ?";
+		$sql = "SELECT id, student_id, first_name, last_name, username, email, major, level, status, perm_moderator FROM users WHERE username = ? AND password = ?";
 		$query = $this->db->query($sql, array(clean4print($username), $password)); 
 		if ($query->num_rows() != 1) return FALSE;
 		return $query->row();
@@ -43,6 +43,12 @@ class Users_model extends CI_Model {
 		$query = $this->db->query($sql, array($student_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), $activation_key, intval($perm_moderator)));
 	}
 
+	function getUsersByEmail($email) {
+		$sql = "SELECT id, student_id, first_name, last_name, username, email, major, level, status, perm_moderator FROM users WHERE email = ?";
+		$query = $this->db->query($sql, array(clean4print($email))); 
+		return $query->result();
+	}
+
 	function getPassword($email) {
 		$sql = "SELECT password FROM users WHERE email = ?";
 		$query = $this->db->query($sql, array($email));
@@ -68,12 +74,12 @@ class Users_model extends CI_Model {
 	}
 	
 	function insertActivationRecord($user_id, $key) {
-		$sql = "UPDATE users SET activation_key=? WHERE id=?";
+		$sql = "UPDATE users SET activation_key = ? WHERE id = ?";
 		$query = $this->db->query($sql, array($key, intval($user_id)));
 	}
 	
 	function getActivationKey($user_id) {
-		$sql = "SELECT activation_key FROM users WHERE id=?";
+		$sql = "SELECT activation_key FROM users WHERE id = ?";
 		$query = $this->db->query($sql, array(intval($user_id)));
 		return $query->row()->activation_key;
 	}
@@ -96,12 +102,12 @@ class Users_model extends CI_Model {
 	}
 	
 	function deleteRecovery($user_id, $key) {
-		$sql = "DELETE FROM recovery WHERE user_id=? AND recovery.key=?";
+		$sql = "DELETE FROM recovery WHERE user_id = ? AND recovery.key = ?";
 		$query = $this->db->query($sql, array(intval($user_id), $key));
 	}
 	
 	function getRecovery($key) {
-		$sql = "SELECT * FROM recovery WHERE recovery.key=?";
+		$sql = "SELECT * FROM recovery WHERE recovery.key = ?";
 		$query = $this->db->query($sql, array(clean4print($key)));
 		if ($query->num_rows() != 1) return NULL;
 		return $query->row();

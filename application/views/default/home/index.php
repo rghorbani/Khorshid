@@ -139,7 +139,7 @@
 						<input name="hash" id="captcha_hash" type="hidden" value="<?=$captcha_hash?>">
 					</div>
 					<div class="registration-form-action clearfix animated fadeInUp" data-animation="fadeInUp" data-animation-delay=".15s">
-						<a href="index.html#demo1" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back </a>
+						<a href="#about" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back </a>
 						<button type="submit" class="btn btn-success pull-right green-btn ">Register Now &nbsp; <i class="icon-chevron-right"></i></button>
 					</div>
 				</form>
@@ -178,7 +178,7 @@
 						</div>
 						<input name="hash" id="captcha_hash" type="hidden" value="<?=$captcha_hash?>">
 						<div class="forget-form-action clearfix">
-							<a href="index.html#demo2" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
+							<a href="#register" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
 							<button type="submit" class="btn btn-success pull-right green-btn">Submit &nbsp;&nbsp; <i class="icon-chevron-right"></i></button>
 						</div>
 					</form>
@@ -215,12 +215,12 @@
 								<span class="input-group-addon "><i class="icon-key icon-color"></i></span>
 								<input name="new_password" type="password" required="required" class="form-control " placeholder="New Password">
 							</div>
-							<?=form_error('password','<li class="error">','</li>')?>
+							<?=form_error('new_password','<li class="error">','</li>')?>
 						</div>
 						<div class="textbox-wrap">
 							<div class="input-group">
 								<span class="input-group-addon "><i class="icon-key icon-color"></i></span>
-								<input name="confirm_password" type="password" required="required" class="form-control " placeholder="Confirm New Password">
+								<input name="confirm_new_password" type="password" required="required" class="form-control " placeholder="Confirm New Password">
 							</div>
 							<?=form_error('confirm_new_password','<li class="error">','</li>')?>
 						</div>
@@ -236,19 +236,11 @@
 						</div>
 						<input name="hash" id="captcha_hash" type="hidden" value="<?=$captcha_hash?>">
 						<div class="login-form-action clearfix">
-							<a href="index.html#demo3" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
+							<a href="#forgotpass" class="btn btn-success pull-left blue-btn"><i class="icon-chevron-left"></i>&nbsp;&nbsp;Back  </a>
 							<button type="submit" class="btn btn-success pull-right green-btn">Submit &nbsp; <i class="icon-chevron-right"></i></button>
 						</div>
 					</form>
 				</div>
-				<!--
-				<div class="login-form-links link1  animated fadeInRightBig" data-animation="fadeInRightBig" data-animation-delay=".2s" style="-webkit-animation: 0.2s;">
-					<h4 class="blue">Don't have an Account?</h4>
-					<span>No worry</span>
-					<a href="index.html#demo2" class="blue">Click Here</a>
-					<span>to Register</span>
-				</div>
-				-->
 				<div class="login-form-links link2  animated fadeInLeftBig" data-animation="fadeInLeftBig" data-animation-delay=".4s" >
 					<h4 class="green">Forget your Password?</h4>
 					<span>Dont worry</span>
@@ -331,11 +323,11 @@
             <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://ali.ghaffaari.net">Ali Ghaffaari: Winter 2007 - Fall 2009</a></h4>
             <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://ebrahim.ir">Ebrahim Mohammadi</a></h4>
             <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp">Ali Shirvani</h4>
-            <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://www.cs.mcgill.ca/~mmilan1/">Mahdi Milani Fard: Fall 2004 - Fall 2006</a></h4>
-            <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://ce.sharif.edu/~keramati/">Hossein Keramati: Fall 2002 - Fall 2004</a></h4>
-            <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://mason.gmu.edu/~nesfaha2/">Naeem Esfahani: Fall 2002 - Fall 2004</a></h4>
+            <!-- <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://www.cs.mcgill.ca/~mmilan1/">Mahdi Milani Fard: Fall 2004 - Fall 2006</a></h4> -->
+            <!-- <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://ce.sharif.edu/~keramati/">Hossein Keramati: Fall 2002 - Fall 2004</a></h4> -->
+            <!-- <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://mason.gmu.edu/~nesfaha2/">Naeem Esfahani: Fall 2002 - Fall 2004</a></h4> -->
             <h3 data-animation="bounceInUp" data-animation-delay=".2s" class="animated bounceInUp">Designers:</h3>
-            <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://www.rghorbani.ir">Reza Ghorbani Farid: New Design</a></h4>
+            <h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp"><a target="_blank" href="http://www.rghorbani.ir">Reza Ghorbani Farid</a></h4>
         </hgroup>
 
     </section>

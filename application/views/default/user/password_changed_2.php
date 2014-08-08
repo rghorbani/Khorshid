@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-md-3"></div>
 			<hgroup class="col-md-6">
-				<h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp">An email containing your new password was sent to your email address. Check your inbox and spam folder please.</h4>
+				<h4 data-animation="fadeInUp" data-animation-delay=".3s" class="animated fadeInUp">Your Password Changed Successfully.</h4>
 			</hgroup>
 		</div>
 

@@ -52,11 +52,11 @@ class Users extends RGF_Controller {
 		redirect(site_url($url), 'location');
 	}
 	
-	public function invalid() {
-		$data["title"] = "Sorry!";
-		$data["show_login_box"] = TRUE;
-		$this->master_view("user/invalid", $data);
-	}
+	// public function invalid() {
+	// 	$data["title"] = "Sorry!";
+	// 	$data["show_login_box"] = TRUE;
+	// 	$this->master_view("user/invalid", $data);
+	// }
 	
 	public function logout() {
 		$this->login->logout();
@@ -110,7 +110,8 @@ class Users extends RGF_Controller {
 			// email sent correctly
 		}
 		
-		$this->Users->addUser($this->input->post("student_id"), $this->input->post("first_name"), $this->input->post("last_name"), $this->input->post("email"), $this->input->post("major"), $this->input->post("level"), $this->input->post("usage"), $this->input->post("username"), $this->input->post("password"), $rand_str);
+		$username = explode("@", $this->input->post("email"))[0];
+		$this->Users->addUser($this->input->post("student_id"), $this->input->post("first_name"), $this->input->post("last_name"), $this->input->post("email"), $this->input->post("major"), $this->input->post("level"), $this->input->post("usage"), $username, $this->input->post("password"), $rand_str);
 		//$this->login->login($this->input->post("username"), $this->input->post("password")); // LOGIN AFTER SIGNUP?
 		$data["title"] = "Signed Up";
 		$this->master_view("user/signedup", $data);
@@ -122,7 +123,7 @@ class Users extends RGF_Controller {
 		$this->load->helper('captcha');
 
 		if ($this->form_validation->run() == FALSE) {
-			/*
+			
 			$cap = create_captcha();
 			$data["captcha_image"] = $cap['filename'];
 			$hash = do_hash(mt_rand() . $cap["word"] . "__sh_c0d3!");
@@ -130,9 +131,7 @@ class Users extends RGF_Controller {
 			$this->Users->deleteOldCaptcha();
 			$this->Users->newCaptcha($cap["word"], $hash, nowTS());
 			
-			$this->master_view("home/index",$data);
-			*/
-			redirect(site_url(""));
+			$this->master_view("user/recover",$data);
 			return;
 		}
 		
@@ -144,13 +143,13 @@ class Users extends RGF_Controller {
 		$users = $this->Users->getUsersByEmail($this->input->post("email"));
 		foreach($users as $user) {
 			$rand_str = do_hash($this->input->post("email") . "__sh_c0d3!" . rand());
-			$str = str_replace(array("{NAME}", "{RECOVERY_LINK}", "{EMAIL}", "{USERNAME}", "{PROFILE_LINK}"), array(($user->name), site_url("users/recovered/" . $rand_str), clean4print($user->email), clean4print($user->username), site_url("users/profile/" . $user->id)), EMAIL_RECOVERY_MSG);
+			$str = str_replace(array("{NAME}", "{RECOVERY_LINK}", "{EMAIL}", "{USERNAME}", "{PROFILE_LINK}"), array(($user->last_name), site_url("users/recovered/" . $rand_str), clean4print($user->email), clean4print($user->username), site_url("users/profile/" . $user->id)), EMAIL_RECOVERY_MSG);
 			$this->Users->addRecovery($user->id, $rand_str);
 			if ($this->mailer->send(EMAIL_SENDER_EMAIL, EMAIL_SENDER_NAME, $user->email, "RGF User", "RGF recovery confirmation", $str)) {
 				// email sent correctly
 			}
 		}
-		// $this->load->view("default/user/recovered", $data);
+
 		$this->master_view("user/recovered", $data);
 	}
 	
@@ -187,42 +186,23 @@ class Users extends RGF_Controller {
 		$this->load->helper('security');
 		
 		if ($this->form_validation->run('users/change_password') == FALSE) {
-			// $this->edit();
-			show_404();
+			$cap = create_captcha();
+			$data["captcha_image"] = $cap['filename'];
+			$hash = do_hash(mt_rand() . $cap["word"] . "__sh_c0d3!");
+			$data["captcha_hash"] = $hash;
+			$this->Users->deleteOldCaptcha();
+			$this->Users->newCaptcha($cap["word"], $hash, nowTS());
+			
+			$this->master_view("user/change_password",$data);
 			return;
 		}
 
 		$this->load->model("Users_model","Users");
-		$this->Users->updatePassword($this->current_user->id, $this->input->post("npassword"), $this->current_user->username);
+		$this->Users->updatePassword($this->input->post("new_password"), $this->input->post("email"));
 		$data["title"] = "Login";
-		$this->master_view("user/changed_pass_login", $data);
+		$this->master_view("user/password_changed_2", $data);
 	}
-	/*
-	public function send_validation_email() {
-		$this->require_login();
-		if ($this->current_user->is_valid == TRUE) show_404();
-		$this->load->library("Mailer");
-		$this->load->model("Users_model","Users");
-		$rand_str = $this->Users->getValidationKey($this->current_user->id);
-		$str = str_replace(array("{NAME}", "{ACTIVATION_LINK}", "{EMAIL}", "{USERNAME}"), array(clean4print($this->current_user->name), site_url("users/validate/" . $rand_str), $this->current_user->email, clean4print($this->current_user->username)), EMAIL_ACTIVATION_MSG);
-		if ($this->mailer->send(EMAIL_SENDER_EMAIL, EMAIL_SENDER_NAME, $this->current_user->email, "RGF User", "RGF email validation", $str)) {
-			// email sent correctly
-		}
-		$data["title"] = "Validation email sent";
-		$this->master_view("user/activation_sent", $data);
-	}
-	
-	public function validate($key = NULL) {
-		if ($key == NULL) show_404();
-		$this->load->model("Users_model","Users");
-		if ($this->Users->key_exists($key) == FALSE) show_404();
-		$this->Users->validate($key);
-		
-		$data["title"] = "Account activated!";
-		// $this->load->view("default/user/activated", $data);
-		$this->master_view("user/activated", $data);
-	}
-	*/
+
 	public function activate($key = NULL) {
 		
 		if ($key == NULL) show_404();
