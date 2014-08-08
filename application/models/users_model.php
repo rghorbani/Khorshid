@@ -37,9 +37,9 @@ class Users_model extends CI_Model {
 		return FALSE;
 	}
 	
-	function addUser($student_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, activation_key, $status = 2, $perm_moderator = 0) {
+	function addUser($student_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, $activation_key, $status = 2, $perm_moderator = 0) {
 		$sql = "INSERT INTO users(student_id, first_name, last_name, email, major, level, usages, username, password, status, activation_key, perm_moderator) 
-		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		$query = $this->db->query($sql, array($student_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), $activation_key, intval($perm_moderator)));
 	}
 
