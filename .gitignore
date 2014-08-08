@@ -1,4 +1,5 @@
 application/logs/*.php
+application/config/config.php
 captcha/*
 /assets/user_images/*.jpg
 install.php
