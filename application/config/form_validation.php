@@ -99,35 +99,6 @@ $config = array(
 			'rules' => 'trim|required|callback__captcha_check'
 		)
 	),
-	'users/edit{name}' => array(
-		array(
-			'field' => 'display_name',
-			'label' => 'Display Name',
-			'rules' => 'trim|required|min_length[4]|max_length[30]'
-		),
-		array(
-			'field' => 'school',
-			'label' => 'School',
-			'rules' => 'trim|max_length[65]'
-		),
-		array(
-			'field' => 'username',
-			'label' => 'Username',
-			'rules' => 'trim|min_length[4]|max_length[20]|callback__username_change_check'
-		)
-	),
-	'users/edit{setting}' => array(
-		array(
-			'field' => 'language',
-			'label' => 'Programming Language',
-			'rules' => 'required|numeric|callback__lang_exists'
-		),
-		array(
-			'field' => 'show_compiler',
-			'label' => 'Show Compiler',
-			'rules' => 'trim|numeric'
-		)
-	),
 	'users/update_email' => array(
 		array(
 			'field' => 'email',

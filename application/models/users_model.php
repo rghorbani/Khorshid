@@ -37,9 +37,10 @@ class Users_model extends CI_Model {
 		return FALSE;
 	}
 	
-	function addUser($student_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, $status = 2, $perm_moderator = 0) {
-		$sql = "INSERT INTO users VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		$query = $this->db->query($sql, array($user_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), intval($perm_moderator)));
+	function addUser($student_id, $first_name, $last_name, $email, $major, $level, $usage, $username, $password, activation_key, $status = 2, $perm_moderator = 0) {
+		$sql = "INSERT INTO users(student_id, first_name, last_name, email, major, level, usages, username, password, status, activation_key, perm_moderator) 
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		$query = $this->db->query($sql, array($student_id, $first_name, $last_name, clean4print($email), $major, $level, $usage, clean4print($username), $password, intval($status), $activation_key, intval($perm_moderator)));
 	}
 
 	function getPassword($email) {
@@ -66,36 +67,26 @@ class Users_model extends CI_Model {
 		return $query->row()->count;
 	}
 	
-	function updateUserProfile($user_id, $name, $school) {
-		$sql = "UPDATE users SET name=? , school=? WHERE id=?";
-		$query = $this->db->query($sql, array(clean4print($name), clean4print($school), intval($user_id)));
-	}
-	
-	function updateEmail($username, $email) {
-		$sql = "UPDATE users SET email = ? WHERE username = ?";
-		$query = $this->db->query($sql, array($username, clean4print($email)));
-	}
-	
-	function insertValidationRecord($user_id, $key) {
+	function insertActivationRecord($user_id, $key) {
 		$sql = "UPDATE users SET activation_key=? WHERE id=?";
 		$query = $this->db->query($sql, array($key, intval($user_id)));
 	}
 	
-	function getValidationKey($user_id) {
+	function getActivationKey($user_id) {
 		$sql = "SELECT activation_key FROM users WHERE id=?";
 		$query = $this->db->query($sql, array(intval($user_id)));
 		return $query->row()->activation_key;
 	}
 	
 	function key_exists($key) {
-		$sql = "SELECT COUNT(*) AS num FROM users WHERE activation_key=? AND is_valid=0";
+		$sql = "SELECT COUNT(*) AS num FROM users WHERE activation_key = ? AND status = 2";
 		$query = $this->db->query($sql, array($key));
 		if ($query->row()->num == 1) return TRUE;
 		return FALSE;
 	}
 	
-	function validate($key) {
-		$sql = "UPDATE users SET is_valid=1 WHERE activation_key=? AND is_valid=0";
+	function activate($key) {
+		$sql = "UPDATE users SET status = 3 WHERE activation_key = ? AND status = 2";
 		$query = $this->db->query($sql, array($key));
 	}
 	

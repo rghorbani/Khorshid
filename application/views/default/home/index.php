@@ -113,14 +113,14 @@
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon "><i class="icon-key icon-color"></i></span>
-										<input type="password" class="form-control " placeholder="Password" required="required">
+										<input name="password" type="password" class="form-control " placeholder="Password" required="required">
 									</div>
 									<?=form_error('password','<li class="error">','</li>')?>
 								</div>
 								<div class="textbox-wrap">
 									<div class="input-group">
 										<span class="input-group-addon "><i class="icon-key icon-color"></i></span>
-										<input type="confirm_password" class="form-control " placeholder="Confirm-Password" required="required">
+										<input name="confirm_password" type="password" class="form-control " placeholder="Confirm-Password" required="required">
 									</div>
 									<?=form_error('confirm_password','<li class="error">','</li>')?>
 								</div>
