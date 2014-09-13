@@ -105,12 +105,13 @@ class Users extends RGF_Controller {
 		
 		srand(time(NULL));
 		$rand_str = do_hash($this->input->post("email") . "__sh_c0d3!" . rand());
-		$str = str_replace(array("{NAME}", "{ACTIVATION_LINK}", "{EMAIL}", "{USERNAME}"), array(clean4print($this->input->post("last_name")), site_url("users/activate/" . $rand_str), $this->input->post("email"), clean4print($this->input->post("username"))), EMAIL_ACTIVATION_MSG);
+		$str = str_replace(array("{NAME}", "{ACTIVATION_LINK}", "{EMAIL}"), array(clean4print($this->input->post("last_name")), site_url("users/activate/" . $rand_str), $this->input->post("email")), EMAIL_ACTIVATION_MSG);
 		if ($this->mailer->send(EMAIL_SENDER_EMAIL, EMAIL_SENDER_NAME, $this->input->post("email"), "RGF User", "RGF email validation", $str)) {
 			// email sent correctly
 		}
 		
-		$username = explode("@", $this->input->post("email"))[0];
+		$temp = explode("@", $this->input->post("email"));
+		$username = $temp[0];
 		$this->Users->addUser($this->input->post("student_id"), $this->input->post("first_name"), $this->input->post("last_name"), $this->input->post("email"), $this->input->post("major"), $this->input->post("level"), $this->input->post("usage"), $username, $this->input->post("password"), $rand_str);
 		//$this->login->login($this->input->post("username"), $this->input->post("password")); // LOGIN AFTER SIGNUP?
 		$data["title"] = "Signed Up";
